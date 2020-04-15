@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         if (ensureAccessGranted()) {
             val text = mUsageStatsRetriever.retrieveStats()
-            tv_main_text.text = text
         }
     }
 

@@ -1,20 +1,13 @@
 package com.bigdict.leprometer.applications
 
-open class Application(var name: String) {
-    var time: Int = 0
-    var score: Int = 0
-    fun addTime(timeToAdd: Int) {
-        this.time += timeToAdd
-        this.score = this.time * 2
-    }
+import com.bigdict.leprometer.data.ApplicationInfoStats
+
+
+class ProductiveApplication(name: String) : ApplicationInfoStats(name, 0) {
 
 }
 
-class ProductiveApplication(name: String) : Application(name) {
-
-}
-
-class LepraApplication(name: String) : Application(name) {
+class LepraApplication(name: String) : ApplicationInfoStats(name, 0) {
 
 }
 

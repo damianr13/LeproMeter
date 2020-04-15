@@ -3,7 +3,7 @@ package com.bigdict.leprometer.data
 import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
-class ApplicationInfoStats(val packageName: String, val usageTime: Long) {
+open class ApplicationInfoStats(val packageName: String, val usageTime: Long) {
 
     fun getFormattedTimeValue(): String {
         val resultBuilder = StringBuilder()
