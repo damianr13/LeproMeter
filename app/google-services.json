@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "284410635863",
+    "firebase_url": "https://leprometer.firebaseio.com",
+    "project_id": "leprometer",
+    "storage_bucket": "leprometer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284410635863:android:722ded5a9cf5baaf6d6512",
+        "android_client_info": {
+          "package_name": "com.bigdict.leprometer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284410635863-6jq496s0or0ju5ius3v3359qjc1f80e5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bigdict.leprometer",
+            "certificate_hash": "593b87bd91566803df2e83eede24d94ad25f1d00"
+          }
+        },
+        {
+          "client_id": "284410635863-92vufivq4en39s54mjbhrj2t31fo4kl4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyRrM7gkDj2dsxIoJ3qM6d03NQbuimk0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284410635863-92vufivq4en39s54mjbhrj2t31fo4kl4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
