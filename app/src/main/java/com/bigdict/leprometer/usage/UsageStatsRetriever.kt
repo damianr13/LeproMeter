@@ -11,7 +11,7 @@ import java.util.*
 class UsageStatsRetriever(context: Context) {
 
     private val mContext = context
-    private val mPackageManager = context.packageManager
+    private val mApplicationInfoRetriever = ApplicationInfoRetriever(context)
 
     fun retrieveStats(): List<ApplicationInfoStats> {
         val manager = mContext.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
@@ -50,26 +50,7 @@ class UsageStatsRetriever(context: Context) {
         return ApplicationInfoStats(
             usageStats.first().packageName,
             usageTime,
-            getApplicationNameByPackage(usageStats.first().packageName)
+            mApplicationInfoRetriever.getApplicationNameByPackage(usageStats.first().packageName)
         )
-    }
-
-    private fun getApplicationNameByPackage(packageName: String): String {
-        val applicationInfo = mPackageManager.getApplicationInfo(packageName, 0)
-
-        return mPackageManager.getApplicationLabel(applicationInfo).toString()
-    }
-
-    private fun getApplicationCategoryByPackage(packageName: String): String {
-        val applicationInfo = mPackageManager.getApplicationInfo(packageName, 0)
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val categoryCharSequence: CharSequence? = ApplicationInfo
-                .getCategoryTitle(mContext, applicationInfo.category)
-
-            categoryCharSequence?.toString() ?: ""
-        } else {
-            "Unknown Category"
-        }
     }
 }
