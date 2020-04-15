@@ -11,7 +11,9 @@ import android.os.Process
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.bigdict.leprometer.dummy.DummyContent
+import com.bigdict.leprometer.stats.ApplicationInfoStatsFragment
 import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
 import com.bigdict.leprometer.usage.UsageStatsRetriever
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,14 +26,23 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
-            R.id.settings_fragment -> {
-                val fragment = SettingsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
-                    .commit()
+            R.id.nav_settings -> {
+                swapMainFragment(SettingsFragment())
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.nav_statistics -> {
+                swapMainFragment(ApplicationInfoStatsFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+
         }
         false
+    }
+
+    private fun swapMainFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+            .commit()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +55,11 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
             val text = mUsageStatsRetriever.retrieveStats()
         }
         if (savedInstanceState == null) {
-            if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
-                val fragment = SettingsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
-                    .commit()
-            }
+//            if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
+//                val fragment = SettingsFragment()
+//                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+//                    .commit()
+//            }
             val fragment = SettingsFragment()
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
                 .commit()

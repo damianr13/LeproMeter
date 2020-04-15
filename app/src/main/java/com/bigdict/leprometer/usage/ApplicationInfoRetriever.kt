@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import android.os.Build
+import com.bigdict.leprometer.R
+import com.bigdict.leprometer.data.ApplicationInfoStats
+import com.bigdict.leprometer.data.ApplicationInfo.Companion.TYPE_LAZY
+import com.bigdict.leprometer.data.ApplicationInfo.Companion.TYPE_PRODUCTIVE
 
 class ApplicationInfoRetriever(context: Context) {
 
@@ -31,5 +35,13 @@ class ApplicationInfoRetriever(context: Context) {
 
     fun getApplicationIcon(packageName: String): Drawable {
         return mPackageManager.getApplicationIcon(packageName)
+    }
+
+    fun getArrowImageFor(applicationInfoStats: ApplicationInfoStats): Drawable {
+        return when(applicationInfoStats.applicationType) {
+            TYPE_LAZY -> mContext.resources.getDrawable(R.drawable.ic_down_red, null)
+            TYPE_PRODUCTIVE -> mContext.resources.getDrawable(R.drawable.ic_up_green, null)
+            else -> mContext.resources.getDrawable(R.drawable.ic_bar_blue, null)
+        }
     }
 }

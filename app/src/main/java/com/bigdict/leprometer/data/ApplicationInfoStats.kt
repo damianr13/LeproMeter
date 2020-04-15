@@ -27,9 +27,15 @@ open class ApplicationInfoStats(packageName: String, val usageTime: Long, applic
 
 open class ApplicationInfo(val packageName: String,
                            val applicationName: String) {
-    var applicationType: String = "none"
+    var applicationType: String = TYPE_UNDEFINED
 
     fun changeType(type: String) {
         this.applicationType = type
+    }
+
+    companion object {
+        const val TYPE_LAZY = "lazy"
+        const val TYPE_PRODUCTIVE = "productive"
+        const val TYPE_UNDEFINED = "none"
     }
 }

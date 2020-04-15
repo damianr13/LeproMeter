@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LeproMeter</string>
+    <string name="application_icon">Application icon</string>
+    <string name="arrow_indicating_app_type">Arrow indicating app type</string>
 </resources>
