@@ -11,24 +11,44 @@ import android.os.Process
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.bigdict.leprometer.dummy.DummyContent
 import com.bigdict.leprometer.usage.UsageStatsRetriever
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ApplicationFragment.OnListFragmentInteractionListener {
 
     private lateinit var mUsageStatsRetriever: UsageStatsRetriever
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
+            R.id.settings_fragment -> {
+                val fragment = ApplicationFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         mUsageStatsRetriever = UsageStatsRetriever(this)
 
         if (ensureAccessGranted()) {
             val text = mUsageStatsRetriever.retrieveStats()
         }
+        if (savedInstanceState == null) {
+            val fragment = ApplicationFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+                .commit()
+        }
     }
+
 
     private fun ensureAccessGranted(): Boolean {
         if (hasAccessGranted()) {
@@ -71,5 +91,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val PACKAGE_USAGE_STATS_REQUEST = 101;
+    }
+
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+        TODO("Not yet implemented")
     }
 }

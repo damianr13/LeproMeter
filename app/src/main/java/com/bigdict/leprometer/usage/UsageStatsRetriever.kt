@@ -13,30 +13,22 @@ class UsageStatsRetriever(context: Context) {
     private val mContext = context
     private val mPackageManager = context.packageManager
 
-    fun retrieveStats(): String {
+    fun retrieveStats(): List<ApplicationInfoStats> {
         val manager = mContext.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
         val now = Calendar.getInstance()
         val startOfDay = Calendar.getInstance()
         startOfDay.set(
             now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH) - 1,
-            0, 0, 0)
+            0, 0, 0
+        )
 
-        val usageStats = manager.queryUsageStats(UsageStatsManager.INTERVAL_BEST,
-            startOfDay.timeInMillis, now.timeInMillis)
+        val usageStats = manager.queryUsageStats(
+            UsageStatsManager.INTERVAL_BEST,
+            startOfDay.timeInMillis, now.timeInMillis
+        )
 
-        val resultBuilder = StringBuilder()
-
-        groupSimilar(usageStats).forEach{
-            resultBuilder.append(getApplicationNameByPackage(it.packageName))
-                .append(" ")
-                .append(getApplicationCategoryByPackage(it.packageName))
-                .append(" ")
-                .append(it.getFormattedTimeValue())
-                .append("\n")
-        }
-
-        return resultBuilder.toString()
+        return groupSimilar(usageStats)
     }
 
     private fun groupSimilar(usageStats: List<UsageStats>): List<ApplicationInfoStats> {
@@ -53,9 +45,13 @@ class UsageStatsRetriever(context: Context) {
             return null
         }
 
-        val usageTime = usageStats.map{it.totalTimeInForeground}.sum()
+        val usageTime = usageStats.map { it.totalTimeInForeground }.sum()
 
-        return ApplicationInfoStats(usageStats.first().packageName, usageTime)
+        return ApplicationInfoStats(
+            usageStats.first().packageName,
+            usageTime,
+            getApplicationNameByPackage(usageStats.first().packageName)
+        )
     }
 
     private fun getApplicationNameByPackage(packageName: String): String {
