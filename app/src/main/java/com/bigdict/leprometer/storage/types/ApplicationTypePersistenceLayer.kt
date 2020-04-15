@@ -1,11 +1,9 @@
 package com.bigdict.leprometer.storage.types
 
-import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
-import android.widget.Toast
 import androidx.room.Room
-import java.lang.ref.WeakReference
+import java.util.function.Consumer
 
 
 class ApplicationTypePersistenceLayer(context: Context) {
@@ -20,12 +18,12 @@ class ApplicationTypePersistenceLayer(context: Context) {
         mDao = mDatabase.applicationTypeDao();
     }
 
-    open fun getDao(): ApplicationTypesDao{
+    fun getDao(): ApplicationTypesDao{
         return this.mDao
     }
 
     fun storeType(packageName: String, type: String) {
-        mDao.insertAll(ApplicationType(packageName, type))
+        AsyncStoreApplicationType(mDao, packageName, type).execute()
     }
 
     fun retrieveType(packageName: String): String {
@@ -33,8 +31,12 @@ class ApplicationTypePersistenceLayer(context: Context) {
     }
 
     fun isDatabaseEmpty(): Boolean{
-        val answer = AsyncDatabaseAccess(this.mContext).execute()
+        val answer = CheckDatabaseEmptyAsyncTask(mDao).execute()
         return answer.get()
+    }
+
+    fun retrieveAllTypesAsync(onRetrieveComplete: OnApplicationTypesRetrieved) {
+        AsyncRetrieveStoredApplicationTypeTask(mDao, onRetrieveComplete).execute()
     }
 
     companion object {
@@ -42,13 +44,37 @@ class ApplicationTypePersistenceLayer(context: Context) {
     }
 }
 
-private class AsyncDatabaseAccess(val context: Context): AsyncTask<Void, Void, Boolean>() {
+private class CheckDatabaseEmptyAsyncTask(val dao: ApplicationTypesDao): AsyncTask<Void, Void, Boolean>() {
     override fun doInBackground(vararg params: Void?): Boolean {
-        val data = ApplicationTypePersistenceLayer(this.context).getDao().getAll()
-        if(data.isEmpty()){
-            return true
-        }
-        return false
-
+        return dao.getAll().isEmpty()
     }
+}
+
+private class AsyncStoreApplicationType(val dao: ApplicationTypesDao,
+                                        val packageName: String,
+                                        val type: String): AsyncTask<Void, Void, Void>() {
+    override fun doInBackground(vararg params: Void?): Void? {
+        dao.deleteByPackageName(packageName)
+        dao.insertAll(ApplicationType(packageName, type))
+        return null
+    }
+}
+
+private class AsyncRetrieveStoredApplicationTypeTask(val dao: ApplicationTypesDao,
+                                                     val resultConsumer: OnApplicationTypesRetrieved):
+    AsyncTask<Void, Void, List<ApplicationType>>() {
+    override fun doInBackground(vararg params: Void?): List<ApplicationType> {
+        return dao.getAll()
+    }
+
+    override fun onPostExecute(result: List<ApplicationType>?) {
+        super.onPostExecute(result)
+        result?.let {
+            resultConsumer.onRetrieveCompleted(it)
+        }
+    }
+}
+
+interface OnApplicationTypesRetrieved {
+    fun onRetrieveCompleted(result: List<ApplicationType>)
 }

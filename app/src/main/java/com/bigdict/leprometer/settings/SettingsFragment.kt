@@ -1,6 +1,7 @@
 package com.bigdict.leprometer.settings
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,8 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bigdict.leprometer.R
+import com.bigdict.leprometer.data.ApplicationInfoModel
 
 import com.bigdict.leprometer.dummy.DummyContent.DummyItem
+import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
+import com.bigdict.leprometer.usage.ApplicationInfoRetriever
+import com.bigdict.leprometer.usage.OnApplicationListRetrieved
 import com.bigdict.leprometer.usage.UsageStatsRetriever
 
 /**
@@ -49,11 +54,20 @@ class SettingsFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter =
-                    MyApplicationRecyclerViewAdapter(
-                        UsageStatsRetriever(context).retrieveStats(),
-                        listener
-                    )
+
+                val appRetriever = ApplicationInfoRetriever(context)
+                val appPersistenceLayer = ApplicationTypePersistenceLayer(context)
+
+                appRetriever.retrieveAppListAsync(object: OnApplicationListRetrieved {
+                    override fun onRetrieveCompleted(result: List<ApplicationInfoModel>) {
+                        adapter =
+                            MyApplicationRecyclerViewAdapter(
+                                appRetriever,
+                                result,
+                                appPersistenceLayer
+                            )
+                    }
+                })
             }
         }
         return view

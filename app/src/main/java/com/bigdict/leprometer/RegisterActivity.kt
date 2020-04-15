@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_register.*
 
 
-class registerActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
@@ -25,7 +24,7 @@ class registerActivity : AppCompatActivity() {
         }
 
         gotoLoginButton.setOnClickListener(){
-            startActivity(Intent(this, loginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }
@@ -67,7 +66,7 @@ class registerActivity : AppCompatActivity() {
                 if(task.isSuccessful){
                     Toast.makeText(baseContext, "Sign up Suceeded",
                         Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,loginActivity::class.java))
+                    startActivity(Intent(this,LoginActivity::class.java))
                     finish()
                 } else{
                     Toast.makeText(baseContext, "Sign up Failed",

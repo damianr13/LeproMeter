@@ -18,4 +18,7 @@ interface ApplicationTypesDao {
 
     @Delete
     fun delete(applicationType: ApplicationType)
+
+    @Query("DELETE FROM applicationtype WHERE packageName = :packageName")
+    fun deleteByPackageName(packageName: String)
 }
