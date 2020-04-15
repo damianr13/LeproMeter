@@ -1,20 +1,18 @@
 package com.bigdict.leprometer.settings
 
+
 import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bigdict.leprometer.R
-
-
-import com.bigdict.leprometer.settings.SettingsFragment.OnListFragmentInteractionListener
-import com.bigdict.leprometer.data.ApplicationInfoStats
+import com.bigdict.leprometer.data.ApplicationInfoModel
 import com.bigdict.leprometer.dummy.DummyContent.DummyItem
+import com.bigdict.leprometer.settings.SettingsFragment.OnListFragmentInteractionListener
 import com.bigdict.leprometer.usage.ApplicationInfoRetriever
-
 import kotlinx.android.synthetic.main.fragment_application.view.*
 
 /**
@@ -24,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_application.view.*
  */
 class MyApplicationRecyclerViewAdapter(
     private val mApplicationInfoRetriever: ApplicationInfoRetriever,
-    private val mValues: List<ApplicationInfoStats>,
+    private val mValues: List<ApplicationInfoModel>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MyApplicationRecyclerViewAdapter.ViewHolder>() {
 

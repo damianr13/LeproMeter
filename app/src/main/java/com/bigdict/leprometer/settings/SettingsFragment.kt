@@ -1,6 +1,7 @@
 package com.bigdict.leprometer.settings
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -50,10 +51,13 @@ class SettingsFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
+
+                val appRetriever = ApplicationInfoRetriever(context)
+
                 adapter =
                     MyApplicationRecyclerViewAdapter(
-                        ApplicationInfoRetriever(context),
-                        UsageStatsRetriever(context).retrieveStats(),
+                        appRetriever,
+                        appRetriever.retrieveAppList(),
                         listener
                     )
             }

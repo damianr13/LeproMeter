@@ -4,7 +4,7 @@ import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
 open class ApplicationInfoStats(packageName: String, val usageTime: Long, applicationName: String):
-    ApplicationInfo(packageName, applicationName) {
+    ApplicationInfoModel(packageName, applicationName) {
 
     fun getFormattedTimeValue(): String {
         val resultBuilder = StringBuilder()
@@ -25,8 +25,8 @@ open class ApplicationInfoStats(packageName: String, val usageTime: Long, applic
     }
 }
 
-open class ApplicationInfo(val packageName: String,
-                           val applicationName: String) {
+open class ApplicationInfoModel(val packageName: String,
+                                val applicationName: String) {
     var applicationType: String = TYPE_UNDEFINED
 
     fun changeType(type: String) {

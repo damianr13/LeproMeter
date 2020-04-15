@@ -3,8 +3,6 @@ package com.bigdict.leprometer.usage
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
-import android.os.Build
 import com.bigdict.leprometer.data.ApplicationInfoStats
 import java.util.*
 
@@ -28,7 +26,10 @@ class UsageStatsRetriever(context: Context) {
             startOfDay.timeInMillis, now.timeInMillis
         )
 
+        val fullAppListPackages = mApplicationInfoRetriever.retrieveAppList()
+            .map { it.packageName }
         return groupSimilar(usageStats)
+            .filter { fullAppListPackages.contains(it.packageName) }
     }
 
     private fun groupSimilar(usageStats: List<UsageStats>): List<ApplicationInfoStats> {
