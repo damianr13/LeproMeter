@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.bigdict.leprometer.R
 
 import com.bigdict.leprometer.dummy.DummyContent.DummyItem
+import com.bigdict.leprometer.usage.ApplicationInfoRetriever
 import com.bigdict.leprometer.usage.UsageStatsRetriever
 
 /**
@@ -51,6 +52,7 @@ class SettingsFragment : Fragment() {
                 }
                 adapter =
                     MyApplicationRecyclerViewAdapter(
+                        ApplicationInfoRetriever(context),
                         UsageStatsRetriever(context).retrieveStats(),
                         listener
                     )

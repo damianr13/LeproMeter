@@ -3,31 +3,43 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/app_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
     <TextView
+        android:layout_toRightOf="@id/app_icon"
         android:id="@+id/item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/cardview_light_background"/>
     <ImageView
+        android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/lazy_app"
         android:id="@+id/productive_app"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:src="@drawable/ic_productive_app" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_star"
+        />
 
     <ImageView
+        android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
         android:layout_alignParentEnd="true"
         android:id="@+id/lazy_app"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:src="@drawable/ic_lepra_app" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_sloth" />
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"/>
 </RelativeLayout>
