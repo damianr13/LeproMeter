@@ -1,7 +1,12 @@
 package com.bigdict.leprometer.storage.types
 
+import android.app.Activity
 import android.content.Context
+import android.os.AsyncTask
+import android.widget.Toast
 import androidx.room.Room
+import java.lang.ref.WeakReference
+
 
 class ApplicationTypePersistenceLayer(context: Context) {
     private val mContext = context
@@ -15,6 +20,10 @@ class ApplicationTypePersistenceLayer(context: Context) {
         mDao = mDatabase.applicationTypeDao();
     }
 
+    open fun getDao(): ApplicationTypesDao{
+        return this.mDao
+    }
+
     fun storeType(packageName: String, type: String) {
         mDao.insertAll(ApplicationType(packageName, type))
     }
@@ -24,15 +33,22 @@ class ApplicationTypePersistenceLayer(context: Context) {
     }
 
     fun isDatabaseEmpty(): Boolean{
-        val allData = mDao.getAll()
-        if(allData.isEmpty()){
-            return true
-        }
-        return false
-
+        val answer = AsyncDatabaseAccess(this.mContext).execute()
+        return answer.get()
     }
 
     companion object {
         private const val DATABASE_NAME = "application_type"
+    }
+}
+
+private class AsyncDatabaseAccess(val context: Context): AsyncTask<Void, Void, Boolean>() {
+    override fun doInBackground(vararg params: Void?): Boolean {
+        val data = ApplicationTypePersistenceLayer(this.context).getDao().getAll()
+        if(data.isEmpty()){
+            return true
+        }
+        return false
+
     }
 }

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bigdict.leprometer.dummy.DummyContent
+import com.bigdict.leprometer.settings.SettingsFragment
 import com.bigdict.leprometer.stats.ApplicationInfoStatsFragment
 import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
 import com.bigdict.leprometer.usage.UsageStatsRetriever

@@ -1,13 +1,14 @@
-package com.bigdict.leprometer
+package com.bigdict.leprometer.settings
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.bigdict.leprometer.R
 
 
-import com.bigdict.leprometer.SettingsFragment.OnListFragmentInteractionListener
+import com.bigdict.leprometer.settings.SettingsFragment.OnListFragmentInteractionListener
 import com.bigdict.leprometer.data.ApplicationInfoStats
 import com.bigdict.leprometer.dummy.DummyContent.DummyItem
 
@@ -43,7 +44,6 @@ class MyApplicationRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         holder.mIdView.text = item.applicationName
-        holder.mContentView.text = item.applicationType
 
         with(holder.mView) {
             tag = item
@@ -55,10 +55,6 @@ class MyApplicationRecyclerViewAdapter(
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
 
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
     }
 }

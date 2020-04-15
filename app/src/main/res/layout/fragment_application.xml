@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:padding="5dp"
     android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/item_number"
@@ -10,11 +15,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
+    <ImageView
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/lazy_app"
+        android:id="@+id/productive_app"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:src="@drawable/ic_productive_app" />
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+    <ImageView
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/lazy_app"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:src="@drawable/ic_lepra_app" />
+</RelativeLayout>
