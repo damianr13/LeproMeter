@@ -10,12 +10,18 @@ import com.bigdict.leprometer.data.ApplicationInfoModel
 import com.bigdict.leprometer.data.ApplicationInfoModel.Companion.TYPE_LAZY
 import com.bigdict.leprometer.data.ApplicationInfoModel.Companion.TYPE_PRODUCTIVE
 import com.bigdict.leprometer.data.ApplicationInfoStats
+import com.bigdict.leprometer.storage.types.ApplicationType
+import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
+import com.bigdict.leprometer.storage.types.OnApplicationTypesRetrieved
+import java.util.function.Consumer
 
 
 class ApplicationInfoRetriever(context: Context) {
 
     private val mContext = context
     private val mPackageManager = context.packageManager
+
+    private val mApplicationTypePersistenceLayer = ApplicationTypePersistenceLayer(context)
 
     fun getApplicationNameByPackage(packageName: String): String {
         val applicationInfo = mPackageManager.getApplicationInfo(packageName, 0)
@@ -56,4 +62,26 @@ class ApplicationInfoRetriever(context: Context) {
             .map { ApplicationInfoModel(it, getApplicationNameByPackage(it)) }
             .sortedBy { it.applicationName }
     }
+
+    fun retrieveAppListAsync(callback: OnApplicationListRetrieved) {
+        mApplicationTypePersistenceLayer.retrieveAllTypesAsync(object: OnApplicationTypesRetrieved {
+            override fun onRetrieveCompleted(result: List<ApplicationType>) {
+                val allAppsList = retrieveAppList()
+                mergeApplicationDataWithType(allAppsList, result)
+
+                callback.onRetrieveCompleted(allAppsList)
+            }
+        })
+    }
+
+    fun mergeApplicationDataWithType(applicationDataList: List<ApplicationInfoModel>,
+                                     applicationTypeList: List<ApplicationType>) {
+        applicationDataList.forEach { appData ->
+            applicationTypeList.firstOrNull { it.packageName == appData.packageName }
+            ?.let{ corresponding -> appData.applicationType = corresponding.applicationType}}
+    }
+}
+
+interface OnApplicationListRetrieved {
+    fun onRetrieveCompleted(result: List<ApplicationInfoModel>)
 }

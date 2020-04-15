@@ -56,11 +56,11 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
             val text = mUsageStatsRetriever.retrieveStats()
         }
         if (savedInstanceState == null) {
-//            if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
-//                val fragment = SettingsFragment()
-//                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
-//                    .commit()
-//            }
+            if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
+                val fragment = SettingsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+            }
             val fragment = SettingsFragment()
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
                 .commit()

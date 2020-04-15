@@ -3,4 +3,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="app_icon_size">32dp</dimen>
     <dimen name="arrow_icon_size">32dp</dimen>
+    <dimen name="app_type_icon_size">45dp</dimen>
 </resources>

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="5dp"
     android:orientation="horizontal"
     android:layout_marginBottom="10dp">
@@ -24,8 +25,9 @@
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/lazy_app"
         android:id="@+id/productive_app"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/app_type_icon_size"
+        android:layout_height="@dimen/app_type_icon_size"
+        android:padding="5dp"
         android:src="@drawable/ic_star"
         />
 
@@ -34,9 +36,11 @@
         android:layout_marginEnd="10dp"
         android:layout_alignParentEnd="true"
         android:id="@+id/lazy_app"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_sloth" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_sloth"
+        android:padding="5dp"
+        tools:background="@color/colorSelectedHighlight"/>
     <View
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"

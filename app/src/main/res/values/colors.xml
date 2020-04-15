@@ -5,4 +5,6 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="purple">#3B3C55</color>
     <color name="lightpurple">#abadde</color>
+
+    <color name="colorSelectedHighlight">#d5db1d</color>
 </resources>
