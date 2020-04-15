@@ -10,18 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bigdict.leprometer.data.ApplicationInfoStats
 
-import com.bigdict.leprometer.dummy.DummyContent
 import com.bigdict.leprometer.dummy.DummyContent.DummyItem
 import com.bigdict.leprometer.usage.UsageStatsRetriever
 
 /**
  * A fragment representing a list of Items.
  * Activities containing this fragment MUST implement the
- * [ApplicationFragment.OnListFragmentInteractionListener] interface.
+ * [SettingsFragment.OnListFragmentInteractionListener] interface.
  */
-class ApplicationFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
@@ -94,7 +92,7 @@ class ApplicationFragment : Fragment() {
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            ApplicationFragment().apply {
+            SettingsFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

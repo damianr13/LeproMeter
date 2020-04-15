@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 
-import com.bigdict.leprometer.ApplicationFragment.OnListFragmentInteractionListener
+import com.bigdict.leprometer.SettingsFragment.OnListFragmentInteractionListener
 import com.bigdict.leprometer.data.ApplicationInfoStats
 import com.bigdict.leprometer.dummy.DummyContent.DummyItem
 

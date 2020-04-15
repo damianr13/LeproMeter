@@ -12,19 +12,20 @@ import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bigdict.leprometer.dummy.DummyContent
+import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
 import com.bigdict.leprometer.usage.UsageStatsRetriever
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), ApplicationFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInteractionListener {
 
     private lateinit var mUsageStatsRetriever: UsageStatsRetriever
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.settings_fragment -> {
-                val fragment = ApplicationFragment()
+                val fragment = SettingsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
                     .commit()
                 return@OnNavigationItemSelectedListener true
@@ -43,7 +44,12 @@ class MainActivity : AppCompatActivity(), ApplicationFragment.OnListFragmentInte
             val text = mUsageStatsRetriever.retrieveStats()
         }
         if (savedInstanceState == null) {
-            val fragment = ApplicationFragment()
+            if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
+                val fragment = SettingsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+            }
+            val fragment = SettingsFragment()
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
                 .commit()
         }

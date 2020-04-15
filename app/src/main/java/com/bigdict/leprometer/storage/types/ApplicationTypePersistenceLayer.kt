@@ -23,6 +23,15 @@ class ApplicationTypePersistenceLayer(context: Context) {
         return mDao.getByPackageName(packageName).applicationType
     }
 
+    fun isDatabaseEmpty(): Boolean{
+        val allData = mDao.getAll()
+        if(allData.isEmpty()){
+            return true
+        }
+        return false
+
+    }
+
     companion object {
         private const val DATABASE_NAME = "application_type"
     }
