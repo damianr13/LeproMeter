@@ -3,12 +3,8 @@ package com.bigdict.leprometer.data
 import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
-open class ApplicationInfoStats(
-    val packageName: String,
-    val usageTime: Long,
-    var applicationName: String) {
-    var applicationType: String = "none"
-
+open class ApplicationInfoStats(packageName: String, val usageTime: Long, applicationName: String):
+    ApplicationInfo(packageName, applicationName) {
 
     fun getFormattedTimeValue(): String {
         val resultBuilder = StringBuilder()
@@ -27,10 +23,13 @@ open class ApplicationInfoStats(
 
         return if (resultBuilder.isEmpty()) "Not used" else resultBuilder.toString()
     }
+}
+
+open class ApplicationInfo(val packageName: String,
+                           val applicationName: String) {
+    var applicationType: String = "none"
 
     fun changeType(type: String) {
         this.applicationType = type
     }
-
-
 }
