@@ -23,7 +23,7 @@ class UsageStatsRetriever(context: Context) {
         val now = Calendar.getInstance()
         val startOfDay = Calendar.getInstance()
         startOfDay.set(
-            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE),
+            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
             0, 0, 1
         )
 
@@ -31,9 +31,9 @@ class UsageStatsRetriever(context: Context) {
         Log.d("retrieveStats", "${now.timeInMillis}")
 
         val usageStats = manager.queryUsageStats(
-            UsageStatsManager.INTERVAL_DAILY,
+            UsageStatsManager.INTERVAL_BEST,
             startOfDay.timeInMillis, now.timeInMillis
-        ).filter { it.firstTimeStamp > startOfDay.timeInMillis }
+        ).filter { it.lastTimeStamp > startOfDay.timeInMillis }
 
         val fullAppListPackages = mApplicationInfoRetriever.retrieveAppList()
             .map { it.packageName }
