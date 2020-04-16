@@ -44,7 +44,6 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("onCreateView", "sunt aici")
         val view = inflater.inflate(R.layout.fragment_application_list, container, false)
 
         // Set the adapter

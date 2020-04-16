@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bigdict.leprometer.dummy.DummyContent
+import com.bigdict.leprometer.main_screen.MainScreenFragment
 import com.bigdict.leprometer.settings.SettingsFragment
 import com.bigdict.leprometer.stats.ApplicationInfoStatsFragment
 import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
@@ -35,6 +36,10 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
                 swapMainFragment(ApplicationInfoStatsFragment())
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.nav_main -> {
+                swapMainFragment(MainScreenFragment())
+                return@OnNavigationItemSelectedListener true
+            }
 
         }
         false
@@ -55,12 +60,10 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
         if (savedInstanceState == null) {
             if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
                 val fragment = SettingsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
-                    .commit()
+                swapMainFragment(fragment)
             }
-            val fragment = SettingsFragment()
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
-                .commit()
+            val fragment = MainScreenFragment()
+            swapMainFragment(fragment)
         }
     }
 
