@@ -15,9 +15,9 @@
         />
 
     <item
-        android:id="@+id/nav_discover"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Discover"
+        android:id="@+id/nav_main"
+        android:icon="@drawable/ic_iconfinder_home"
+        android:title="Meter"
         />
 
     <item

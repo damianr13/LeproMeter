@@ -2,4 +2,7 @@
     <string name="app_name">LeproMeter</string>
     <string name="application_icon">Application icon</string>
     <string name="arrow_indicating_app_type">Arrow indicating app type</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
