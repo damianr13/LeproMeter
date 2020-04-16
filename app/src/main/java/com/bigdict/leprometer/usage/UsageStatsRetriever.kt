@@ -3,13 +3,19 @@ package com.bigdict.leprometer.usage
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import com.bigdict.leprometer.data.ApplicationInfoModel
 import com.bigdict.leprometer.data.ApplicationInfoStats
+import com.bigdict.leprometer.storage.types.ApplicationType
+import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
+import com.bigdict.leprometer.storage.types.OnApplicationTypesRetrieved
 import java.util.*
 
 class UsageStatsRetriever(context: Context) {
 
     private val mContext = context
     private val mApplicationInfoRetriever = ApplicationInfoRetriever(context)
+
+    private val mApplicationTypePersistenceLayer = ApplicationTypePersistenceLayer(context)
 
     fun retrieveStats(): List<ApplicationInfoStats> {
         val manager = mContext.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
@@ -30,6 +36,17 @@ class UsageStatsRetriever(context: Context) {
             .map { it.packageName }
         return groupSimilar(usageStats)
             .filter { fullAppListPackages.contains(it.packageName) }
+    }
+
+    fun retrieveStatsAsync(callback: OnApplicationStatsRetrieved) {
+        mApplicationTypePersistenceLayer.retrieveAllTypesAsync(object: OnApplicationTypesRetrieved {
+            override fun onRetrieveCompleted(result: List<ApplicationType>) {
+                val allAppsList = retrieveStats()
+                mApplicationInfoRetriever.mergeApplicationDataWithType(allAppsList, result)
+
+                callback.onRetrieveCompleted(allAppsList)
+            }
+        })
     }
 
     private fun groupSimilar(usageStats: List<UsageStats>): List<ApplicationInfoStats> {
@@ -54,4 +71,8 @@ class UsageStatsRetriever(context: Context) {
             mApplicationInfoRetriever.getApplicationNameByPackage(usageStats.first().packageName)
         )
     }
+}
+
+interface OnApplicationStatsRetrieved {
+    fun onRetrieveCompleted(result: List<ApplicationInfoStats>)
 }

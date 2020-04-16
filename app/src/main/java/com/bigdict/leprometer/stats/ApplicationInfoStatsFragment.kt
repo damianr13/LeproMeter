@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bigdict.leprometer.R
+import com.bigdict.leprometer.data.ApplicationInfoStats
 import com.bigdict.leprometer.usage.ApplicationInfoRetriever
+import com.bigdict.leprometer.usage.OnApplicationStatsRetrieved
 import com.bigdict.leprometer.usage.UsageStatsRetriever
 import kotlinx.android.synthetic.main.fragment_application.view.*
 
@@ -32,14 +34,17 @@ class ApplicationInfoStatsFragment : Fragment() {
             val applicationInfoRetriever = ApplicationInfoRetriever(it)
             val usageStatsRetriever = UsageStatsRetriever(it)
 
-            // Set the adapter
-            if (view is RecyclerView) {
-                with(view) {
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = MyApplicationInfoStatsRecyclerViewAdapter(applicationInfoRetriever,
-                        usageStatsRetriever.retrieveStats())
+            usageStatsRetriever.retrieveStatsAsync(object: OnApplicationStatsRetrieved {
+                override fun onRetrieveCompleted(result: List<ApplicationInfoStats>) {
+                    // Set the adapter
+                    if (view is RecyclerView) {
+                        with(view) {
+                            layoutManager = LinearLayoutManager(context)
+                            adapter = MyApplicationInfoStatsRecyclerViewAdapter(applicationInfoRetriever, result)
+                        }
+                    }
                 }
-            }
+            })
         }
 
         return view

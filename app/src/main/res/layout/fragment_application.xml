@@ -9,17 +9,20 @@
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="@dimen/app_icon_size"
+        android:layout_height="@dimen/app_icon_size"
+        android:layout_centerVertical="true"
+        tools:src="@mipmap/ic_launcher"/>
 
     <TextView
-        android:layout_toRightOf="@id/app_icon"
+        android:layout_toEndOf="@id/app_icon"
         android:id="@+id/item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/cardview_light_background"/>
+        android:textColor="@color/defaultTextColor"
+        tools:text="Lepro Meter"/>
     <ImageView
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
@@ -36,14 +39,9 @@
         android:layout_marginEnd="10dp"
         android:layout_alignParentEnd="true"
         android:id="@+id/lazy_app"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/app_type_icon_size"
+        android:layout_height="@dimen/app_type_icon_size"
         android:src="@drawable/ic_sloth"
         android:padding="5dp"
         tools:background="@color/colorSelectedHighlight"/>
-    <View
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"/>
 </RelativeLayout>

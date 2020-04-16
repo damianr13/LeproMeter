@@ -52,9 +52,6 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         mUsageStatsRetriever = UsageStatsRetriever(this)
 
-        if (ensureAccessGranted()) {
-            val text = mUsageStatsRetriever.retrieveStats()
-        }
         if (savedInstanceState == null) {
             if (ApplicationTypePersistenceLayer(this).isDatabaseEmpty()){
                 val fragment = SettingsFragment()

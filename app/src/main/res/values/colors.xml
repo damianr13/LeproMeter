@@ -7,4 +7,6 @@
     <color name="lightpurple">#abadde</color>
 
     <color name="colorSelectedHighlight">#d5db1d</color>
+
+    <color name="defaultTextColor">#FFFFFF</color>
 </resources>
