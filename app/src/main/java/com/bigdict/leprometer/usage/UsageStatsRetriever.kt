@@ -4,7 +4,6 @@ import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.util.Log
-import com.bigdict.leprometer.data.ApplicationInfoModel
 import com.bigdict.leprometer.data.ApplicationInfoStats
 import com.bigdict.leprometer.storage.types.ApplicationType
 import com.bigdict.leprometer.storage.types.ApplicationTypePersistenceLayer
@@ -66,6 +65,7 @@ class UsageStatsRetriever(context: Context) {
 
     private fun groupSimilar(usageStats: List<UsageStats>): List<ApplicationInfoStats> {
         return usageStats.asSequence().groupBy { it.packageName }
+            .filter { mApplicationInfoRetriever.hasApplicationForPackageInstalled(it.key) }
             .map { createApplicationInfoFromEventGroup(it.value) }
             .filterNotNull()
             .toList()

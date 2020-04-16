@@ -3,6 +3,7 @@ package com.bigdict.leprometer.usage
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
 import com.bigdict.leprometer.R
@@ -22,6 +23,15 @@ class ApplicationInfoRetriever(context: Context) {
     private val mPackageManager = context.packageManager
 
     private val mApplicationTypePersistenceLayer = ApplicationTypePersistenceLayer(context)
+
+    fun hasApplicationForPackageInstalled(packageName: String): Boolean {
+        return try {
+            mPackageManager.getApplicationInfo(packageName, 0)
+            true
+        } catch (ex: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
 
     fun getApplicationNameByPackage(packageName: String): String {
         val applicationInfo = mPackageManager.getApplicationInfo(packageName, 0)
