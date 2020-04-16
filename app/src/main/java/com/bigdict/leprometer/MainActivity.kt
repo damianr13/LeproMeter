@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bigdict.leprometer.dummy.DummyContent
+import com.bigdict.leprometer.groups.Groups
 import com.bigdict.leprometer.main_screen.MainScreenFragment
 import com.bigdict.leprometer.settings.SettingsFragment
 import com.bigdict.leprometer.stats.ApplicationInfoStatsFragment
@@ -38,6 +39,11 @@ class MainActivity : AppCompatActivity(), SettingsFragment.OnListFragmentInterac
             }
             R.id.nav_main -> {
                 swapMainFragment(MainScreenFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.nav_groups -> {
+                swapMainFragment(Groups())
                 return@OnNavigationItemSelectedListener true
             }
 
