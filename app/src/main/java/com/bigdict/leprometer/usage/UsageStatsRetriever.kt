@@ -3,6 +3,7 @@ package com.bigdict.leprometer.usage
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.util.Log
 import com.bigdict.leprometer.data.ApplicationInfoModel
 import com.bigdict.leprometer.data.ApplicationInfoStats
 import com.bigdict.leprometer.storage.types.ApplicationType
@@ -23,19 +24,33 @@ class UsageStatsRetriever(context: Context) {
         val now = Calendar.getInstance()
         val startOfDay = Calendar.getInstance()
         startOfDay.set(
-            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
-            0, 0, 0
+            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE),
+            0, 0, 1
         )
 
+        Log.d("retrieveStats", "${startOfDay.timeInMillis}")
+        Log.d("retrieveStats", "${now.timeInMillis}")
+
         val usageStats = manager.queryUsageStats(
-            UsageStatsManager.INTERVAL_BEST,
+            UsageStatsManager.INTERVAL_DAILY,
             startOfDay.timeInMillis, now.timeInMillis
-        )
+        ).filter { it.firstTimeStamp > startOfDay.timeInMillis }
 
         val fullAppListPackages = mApplicationInfoRetriever.retrieveAppList()
             .map { it.packageName }
-        return groupSimilar(usageStats)
+        val usedApps = groupSimilar(usageStats)
             .filter { fullAppListPackages.contains(it.packageName) }
+            .toList()
+
+        val result = ArrayList<ApplicationInfoStats>()
+        result.addAll(usedApps)
+
+        val usedAppsPackages = usedApps.map { it.packageName }
+        fullAppListPackages.filter { !usedAppsPackages.contains(it)}.forEach {
+            result.add(ApplicationInfoStats(it, 0, mApplicationInfoRetriever.getApplicationNameByPackage(it)))
+        }
+
+        return result
     }
 
     fun retrieveStatsAsync(callback: OnApplicationStatsRetrieved) {

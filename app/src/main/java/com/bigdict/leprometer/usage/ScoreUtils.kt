@@ -14,5 +14,9 @@ fun computeScore(usageHistory: List<ApplicationInfoStats>): Long {
 }
 
 fun normalizeScore(scoreValue: Long): Double {
-    return if (scoreValue > MAX_ALLOWED_SCORE) 1.0 else scoreValue / MAX_ALLOWED_SCORE
+    return when {
+        scoreValue <= 0 -> 0.001
+        scoreValue > MAX_ALLOWED_SCORE -> 1.0
+        else -> scoreValue / MAX_ALLOWED_SCORE
+    }
 }
