@@ -33,7 +33,7 @@ class UsageStatsRetriever(context: Context) {
         val usageStats = manager.queryUsageStats(
             UsageStatsManager.INTERVAL_BEST,
             startOfDay.timeInMillis, now.timeInMillis
-        ).filter { it.lastTimeStamp > startOfDay.timeInMillis }
+        ).filter { it.lastTimeStamp > startOfDay.timeInMillis || it.firstTimeStamp > startOfDay.timeInMillis }
 
         val fullAppListPackages = mApplicationInfoRetriever.retrieveAppList()
             .map { it.packageName }
