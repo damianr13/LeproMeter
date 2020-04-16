@@ -23,7 +23,7 @@ class UsageStatsRetriever(context: Context) {
         val now = Calendar.getInstance()
         val startOfDay = Calendar.getInstance()
         startOfDay.set(
-            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH) - 1,
+            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
             0, 0, 0
         )
 
