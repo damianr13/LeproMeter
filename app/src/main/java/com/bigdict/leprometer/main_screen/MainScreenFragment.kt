@@ -1,14 +1,12 @@
 package com.bigdict.leprometer.main_screen
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import com.bigdict.leprometer.R
 import kotlinx.android.synthetic.main.fragment_main_screen.view.*
@@ -28,6 +26,7 @@ class MainScreenFragment() : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var view2: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -43,7 +42,24 @@ class MainScreenFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         view2 = inflater.inflate(R.layout.fragment_main_screen, container, false);
-        return inflater.inflate(R.layout.fragment_main_screen, container, false)
+        changeMeeterFill()
+        return view2
+    }
+
+    private fun changeMeeterFill() {
+        val imageBitmap = view2.resources.getDrawable(R.drawable.meeter_full, null).toBitmap()
+        val imageHeight = (imageBitmap.height * 0.8).toInt()
+        val croppedBitmap: Bitmap = Bitmap.createBitmap(
+            imageBitmap,
+            0,
+            imageBitmap.height - imageHeight,
+            imageBitmap.width,
+            imageHeight
+        )
+
+        val newImage = BitmapDrawable(view2.resources, croppedBitmap)
+
+        view2.meeter_full.setImageDrawable(newImage)
     }
 
     companion object {
