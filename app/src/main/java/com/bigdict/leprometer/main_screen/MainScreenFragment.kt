@@ -9,6 +9,11 @@ import android.view.ViewGroup
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.bigdict.leprometer.R
+import com.bigdict.leprometer.data.ApplicationInfoStats
+import com.bigdict.leprometer.usage.OnApplicationStatsRetrieved
+import com.bigdict.leprometer.usage.UsageStatsRetriever
+import com.bigdict.leprometer.usage.computeScore
+import com.bigdict.leprometer.usage.normalizeScore
 import kotlinx.android.synthetic.main.fragment_main_screen.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,14 +46,24 @@ class MainScreenFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        view2 = inflater.inflate(R.layout.fragment_main_screen, container, false);
-        changeMeeterFill()
+        view2 = inflater.inflate(R.layout.fragment_main_screen, container, false)
+
+        context?.let{
+            val usageStatsRetriever = UsageStatsRetriever(it)
+            usageStatsRetriever.retrieveStatsAsync(object: OnApplicationStatsRetrieved {
+                override fun onRetrieveCompleted(result: List<ApplicationInfoStats>) {
+                    val normalizedScore = normalizeScore(computeScore(result))
+
+                    changeMeeterFill(normalizedScore)
+                }
+            })
+        }
         return view2
     }
 
-    private fun changeMeeterFill() {
+    private fun changeMeeterFill(normalizedScore: Double) {
         val imageBitmap = view2.resources.getDrawable(R.drawable.meeter_full, null).toBitmap()
-        val imageHeight = (imageBitmap.height * 0.8).toInt()
+        val imageHeight = (imageBitmap.height * normalizedScore).toInt()
         val croppedBitmap: Bitmap = Bitmap.createBitmap(
             imageBitmap,
             0,
